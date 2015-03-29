@@ -1,0 +1,37 @@
+#include <QtGui>
+#include <QtNetwork>
+
+FtpWindow::FtpWindow(QWidget *parent)
+    : QDialog(parent), ftp(0), networkSession(0)
+{
+    ftpServerLabel = new QLabel(tr("Ftp сервер:"));
+    ftpServerLineEdit = new QLineEdit("ftp.mgts.by");
+    ftpServerLabel->setBuddy(ftpServerLineEdit);
+
+    statusLabel = new QLabel(tr("Введите имя ftp сервера."));
+#if defined(Q_OS_SYMBIAN) || defined(Q_WS_MAEMO_5) || defined(Q_WS_SIMULATOR)
+    //
+    statusLabel->setWordWrap( true );
+#endif
+
+    fileList = new QTreeWidget;
+    fileList->setEnabled(false);
+    fileList->setRootIsDecorated(false);
+    fileList->setHeaderLabels(QStringList() << tr("Имя") << tr("Размер") << tr("Владелец") << tr("Группа") << tr("Дата"));
+    fileList->header()->setStretchLastSection(false);
+
+    connectButton = new QPushButton(tr("Соединится"));
+    connectButton->setDefault(true);
+
+    cdToParentButton = new QPushButton;
+    cdToParentButton->setIcon(QPixmap(":/images/cdtoparent.png"));
+    cdToParentButton->setEnabled(false);
+
+    downloadButton = new QPushButton(tr("Скачать"));
+    downloadButton->setEnabled(false);
+
+    quitButton = new QPushButton(tr("Выход"));
+
+    buttonBox = new QDialogButtonBox;
+    buttonBox->addButton(downloadButton, QDialogButtonBox::ActionRole);
+    buttonBox->addButton(quitButton, QDialogButtonBox::RejectRole);
