@@ -35,3 +35,44 @@ FtpWindow::FtpWindow(QWidget *parent)
     buttonBox = new QDialogButtonBox;
     buttonBox->addButton(downloadButton, QDialogButtonBox::ActionRole);
     buttonBox->addButton(quitButton, QDialogButtonBox::RejectRole);
+     progressDialog = new QProgressDialog(this);
+
+    connect(fileList, SIGNAL(itemActivated(QTreeWidgetItem*,int)),
+            this, SLOT(processItem(QTreeWidgetItem*,int)));
+    connect(fileList, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
+            this, SLOT(enableDownloadButton()));
+    connect(progressDialog, SIGNAL(canceled()), this, SLOT(cancelDownload()));
+    connect(connectButton, SIGNAL(clicked()), this, SLOT(connectOrDisconnect()));
+    connect(cdToParentButton, SIGNAL(clicked()), this, SLOT(cdToParent()));
+    connect(downloadButton, SIGNAL(clicked()), this, SLOT(downloadFile()));
+    connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
+
+    QHBoxLayout *topLayout = new QHBoxLayout;
+    topLayout->addWidget(ftpServerLabel);
+    topLayout->addWidget(ftpServerLineEdit);
+  
+#ifndef Q_OS_SYMBIAN
+    topLayout->addWidget(cdToParentButton);
+    topLayout->addWidget(connectButton);
+#else
+    // Small screen
+    QHBoxLayout *topLayout2 = new QHBoxLayout;
+    topLayout2->addWidget(cdToParentButton);
+    topLayout2->addWidget(connectButton);
+#endif
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addLayout(topLayout);
+#ifdef Q_OS_SYMBIAN
+   
+    mainLayout->addLayout(topLayout2);
+#endif
+    mainLayout->addWidget(fileList);
+    mainLayout->addWidget(statusLabel);
+    mainLayout->addWidget(buttonBox);
+    setLayout(mainLayout);
+}
+QSize FtpWindow::sizeHint() const
+{
+    return QSize(500, 300);
+}
