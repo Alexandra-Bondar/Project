@@ -1,0 +1,36 @@
+void FtpWindow::connectToFtp()
+{
+    ftp = new QFtp(this);
+    connect(ftp, SIGNAL(commandFinished(int,bool)),
+            this, SLOT(ftpCommandFinished(int,bool)));
+    connect(ftp, SIGNAL(listInfo(QUrlInfo)),
+            this, SLOT(addToList(QUrlInfo)));
+    connect(ftp, SIGNAL(dataTransferProgress(qint64,qint64)),
+            this, SLOT(updateDataTransferProgress(qint64,qint64)));
+
+    fileList->clear();
+    currentPath.clear();
+    isDirectory.clear();
+
+
+//connect to 21 port
+    QUrl url(ftpServerLineEdit->text());
+    if (!url.isValid() || url.scheme().toLower() != QLatin1String("ftp")) {
+        ftp->connectToHost(ftpServerLineEdit->text(), 21);
+        ftp->login();
+    } else {
+        ftp->connectToHost(url.host(), url.port(21));
+
+        if (!url.userName().isEmpty())
+            ftp->login(QUrl::fromPercentEncoding(url.userName().toLatin1()), url.password());
+        else
+            ftp->login();
+        if (!url.path().isEmpty())
+            ftp->cd(url.path());
+    }
+       fileList->setEnabled(true);
+    connectButton->setEnabled(false);
+    connectButton->setText(tr("Отсоединиться"));
+    statusLabel->setText(tr("Соединение с FTP-сервером %1...")
+                         .arg(ftpServerLineEdit->text()));
+}
