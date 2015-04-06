@@ -34,3 +34,22 @@ void FtpWindow::connectToFtp()
     statusLabel->setText(tr("Соединение с FTP-сервером %1...")
                          .arg(ftpServerLineEdit->text()));
 }
+/*
+void FtpWindow::connectOrDisconnect()
+{
+    if (ftp) {
+        ftp->abort();
+        ftp->deleteLater();
+        ftp = 0;
+        fileList->setEnabled(false);
+        cdToParentButton->setEnabled(false);
+        downloadButton->setEnabled(false);
+        connectButton->setEnabled(true);
+        connectButton->setText(tr("Соединится"));
+#ifndef QT_NO_CURSOR
+        setCursor(Qt::ArrowCursor);
+#endif
+        statusLabel->setText(tr("Введите имя ftp сервера."));
+        return;
+    }
+*/
