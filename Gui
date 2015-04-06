@@ -1,5 +1,6 @@
 #include <QtGui>
 #include <QtNetwork>
+#include <ftp.h>
 
 FtpWindow::FtpWindow(QWidget *parent)
     : QDialog(parent), ftp(0), networkSession(0)
