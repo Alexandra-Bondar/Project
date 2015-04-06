@@ -1,0 +1,30 @@
+#include <QApplication>
+#include <QTextCodec>
+#include "ftpwindow.h"
+#ifdef Q_OS_SYMBIAN
+#include <QDir>
+#include <QDesktopWidget>
+#endif
+
+int main(int argc, char *argv[])
+{
+    Q_INIT_RESOURCE(ftp);
+    // rus
+    QTextCodec *utfcodec = QTextCodec::codecForName("UTF-8");
+    QTextCodec::setCodecForTr(utfcodec);
+    QTextCodec::setCodecForCStrings(utfcodec);
+#ifdef Q_OS_SYMBIAN //  change in future
+    // c:\data
+    
+    QDir::setCurrent( "c:\\data" );
+#endif
+    QApplication app(argc, argv);
+    FtpWindow ftpWin;
+#ifdef Q_OS_SYMBIAN
+    //open window
+    ftpWin.showMaximized();
+#else
+    ftpWin.show();
+#endif
+    return ftpWin.exec();
+}
