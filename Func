@@ -83,6 +83,7 @@ void FtpWindow::connectOrDisconnect()
     }
 connectToFtp();
 }
+//--------------------------------------------------------------
 void FtpWindow::downloadFile()
 {
     QString fileName = fileList->currentItem()->text(0);
@@ -111,6 +112,7 @@ void FtpWindow::downloadFile()
     downloadButton->setEnabled(false);
     progressDialog->exec();
 }
+//---------------------------------------------------------------
 //abort
 void FtpWindow::cancelDownload()
 {
