@@ -83,4 +83,42 @@ void FtpWindow::connectOrDisconnect()
     }
 connectToFtp();
 }
+void FtpWindow::downloadFile()
+{
+    QString fileName = fileList->currentItem()->text(0);
+//don't
+    if (QFile::exists(fileName)) {
+        QMessageBox::information(this, tr("FTP"),
+                                 tr("Не возможно скачать файл %1 в "
+                                    "текущую папку.")
+                                 .arg(fileName));
+        return;
+    }
 
+//download
+    file = new QFile(fileName);
+    if (!file->open(QIODevice::WriteOnly)) {
+        QMessageBox::information(this, tr("FTP"),
+                                 tr("Невозможно записать %1: %2.")
+                                 .arg(fileName).arg(file->errorString()));
+        delete file;
+        return;
+    }
+
+    ftp->get(fileList->currentItem()->text(0), file);
+
+    progressDialog->setLabelText(tr("Скачивание %1...").arg(fileName));
+    downloadButton->setEnabled(false);
+    progressDialog->exec();
+}
+//abort
+void FtpWindow::cancelDownload()
+{
+    ftp->abort();
+
+    if (file->exists()) {
+        file->close();
+        file->remove();
+    }
+    delete file;
+}
