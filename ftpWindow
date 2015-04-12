@@ -1,0 +1,65 @@
+
+#ifndef FTPWINDOW_H
+#define FTPWINDOW_H
+
+#include <QDialog>
+#include <QHash>
+#include <QNetworkConfigurationManager>
+
+QT_BEGIN_NAMESPACE
+class QDialogButtonBox;
+class QFile;
+class QFtp;
+class QLabel;
+class QLineEdit;
+class QTreeWidget;
+class QTreeWidgetItem;
+class QProgressDialog;
+class QPushButton;
+class QUrlInfo;
+class QNetworkSession;
+QT_END_NAMESPACE
+
+class FtpWindow : public QDialog
+{
+    Q_OBJECT
+
+public:
+    FtpWindow(QWidget *parent = 0);
+    QSize sizeHint() const;
+private slots:
+    void connectOrDisconnect();
+    //add downloadFile + cancelDownload+ addtoList+ processItem+ ftpfinished + cdToParent (недописанные/пока нерабочие функции)
+    
+    void enableDownloadButton();
+    void enableConnectButton();
+    void connectToFtp();
+//add list, finished comands, update data and other functions п.с. (незаконченный хедер, скоро добью).
+  
+    void enableDownloadButton();
+    void enableConnectButton();
+//!!!
+
+private:
+    QLabel *ftpServerLabel;
+    QLineEdit *ftpServerLineEdit;
+    QLabel *statusLabel;
+    QTreeWidget *fileList;
+    QPushButton *cdToParentButton;
+    QPushButton *connectButton;
+    QPushButton *downloadButton;
+    QPushButton *quitButton;
+    QDialogButtonBox *buttonBox;
+    QProgressDialog *progressDialog;
+    
+    QHash<QString, bool> isDirectory;
+    QString currentPath;
+    QFtp *ftp;
+    QFile *file;
+
+    QNetworkSession *networkSession;
+    QNetworkConfigurationManager manager;
+
+};
+
+#endif
