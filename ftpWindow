@@ -1,4 +1,3 @@
-
 #ifndef FTPWINDOW_H
 #define FTPWINDOW_H
 
@@ -27,18 +26,23 @@ class FtpWindow : public QDialog
 public:
     FtpWindow(QWidget *parent = 0);
     QSize sizeHint() const;
+
+
 private slots:
     void connectOrDisconnect();
-    //add downloadFile + cancelDownload+ addtoList+ processItem+ ftpfinished + cdToParent (недописанные/пока нерабочие функции)
-    
-    void enableDownloadButton();
-    void enableConnectButton();
+    void downloadFile();
+    void cancelDownload();
     void connectToFtp();
-//add list, finished comands, update data and other functions п.с. (незаконченный хедер, скоро добью).
-  
+
+    void ftpCommandFinished(int commandId, bool error);
+    void addToList(const QUrlInfo &urlInfo);
+    void processItem(QTreeWidgetItem *item, int column);
+    void cdToParent();
+    void updateDataTransferProgress(qint64 readBytes,
+                                    qint64 totalBytes);
     void enableDownloadButton();
     void enableConnectButton();
-//!!!
+
 
 private:
     QLabel *ftpServerLabel;
@@ -51,7 +55,8 @@ private:
     QPushButton *quitButton;
     QDialogButtonBox *buttonBox;
     QProgressDialog *progressDialog;
-    
+
+
     QHash<QString, bool> isDirectory;
     QString currentPath;
     QFtp *ftp;
