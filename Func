@@ -35,6 +35,7 @@ void FtpWindow::connectToFtp()
                          .arg(ftpServerLineEdit->text()));
 }
 //------------------------------------------------
+//
 void FtpWindow::connectOrDisconnect()
 {
     if (ftp) {
@@ -55,7 +56,7 @@ void FtpWindow::connectOrDisconnect()
     #ifndef QT_NO_CURSOR
     setCursor(Qt::WaitCursor);
 #endif
-
+//
     if (!networkSession || !networkSession->isOpen()) {
         if (manager.capabilities() & QNetworkConfigurationManager::NetworkSessionRequired) {
             if (!networkSession) {
@@ -201,7 +202,7 @@ void FtpWindow::addToList(const QUrlInfo &urlInfo)
         fileList->setEnabled(true);
     }
 }
-//----------------
+//----------------------
 //process item
 void FtpWindow::processItem(QTreeWidgetItem *item, int /*column*/)
 {
@@ -222,6 +223,7 @@ void FtpWindow::processItem(QTreeWidgetItem *item, int /*column*/)
 }
 //--------------
 //levelup
+//-----
 void FtpWindow::cdToParent()
 {
 #ifndef QT_NO_CURSOR
