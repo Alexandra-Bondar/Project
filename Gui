@@ -14,7 +14,7 @@ FtpWindow::FtpWindow(QWidget *parent)
     //
     statusLabel->setWordWrap( true );
 #endif
-
+//
     fileList = new QTreeWidget;
     fileList->setEnabled(false);
     fileList->setRootIsDecorated(false);
@@ -51,7 +51,8 @@ FtpWindow::FtpWindow(QWidget *parent)
     QHBoxLayout *topLayout = new QHBoxLayout;
     topLayout->addWidget(ftpServerLabel);
     topLayout->addWidget(ftpServerLineEdit);
-  
+//
+
 #ifndef Q_OS_SYMBIAN
     topLayout->addWidget(cdToParentButton);
     topLayout->addWidget(connectButton);
@@ -73,6 +74,7 @@ FtpWindow::FtpWindow(QWidget *parent)
     mainLayout->addWidget(buttonBox);
     setLayout(mainLayout);
 }
+//razmeri
 QSize FtpWindow::sizeHint() const
 {
     return QSize(500, 300);
