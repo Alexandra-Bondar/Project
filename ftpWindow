@@ -5,6 +5,7 @@
 #include <QHash>
 #include <QNetworkConfigurationManager>
 
+//use class qftp
 QT_BEGIN_NAMESPACE
 class QDialogButtonBox;
 class QFile;
